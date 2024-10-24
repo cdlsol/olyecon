@@ -60,7 +60,3 @@ if __name__ == "__main__":
     # Verify the data
     result = pipeline.conn.execute("SELECT COUNT(*) FROM analytics_table").fetchone()
     print(f"Total rows in database: {result[0]}")
-
-
-    
-        
