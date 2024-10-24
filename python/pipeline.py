@@ -1,21 +1,19 @@
 import pandas as pd
 import duckdb 
 
-class ETLPipeline:
+class ELTPipeline:
     def __init__(self, db_path = 'analytics.ddb'):
         self.conn = duckdb.connect(db_path)
 
-    def exctract(self, csv_path):
+    def extract(self, csv_path):
         print(f"Extracting data from {csv_path}")
         return pd.read_csv(csv_path)
 
-    def transform(self, df):
-        ... #pending transformation specs
-        print("Transforming Data")
-        return transformed_df
-
     def load(self, df, table_name):
+        
         print(f"Loading data into table: {table_name}")
+
+        self.conn.execute(f"DROP TABLE IF EXISTS {table_name}")
 
         column_schema = self._generate_schema(df)
         create_table_sql = f""" 
@@ -53,12 +51,11 @@ class ETLPipeline:
 
 if __name__ == "__main__":
     # Initialize pipeline
-    pipeline = ETLPipeline()
+    pipeline = ELTPipeline()
     
     # Run ETL process
-    df = pipeline.extract('olympics-economics.csv"')
-    transformed_df = pipeline.transform(df)
-    pipeline.load(transformed_df, 'analytics_table')
+    df = pipeline.extract('olympics-economics.csv')
+    pipeline.load(df, 'analytics_table')
     
     # Verify the data
     result = pipeline.conn.execute("SELECT COUNT(*) FROM analytics_table").fetchone()
