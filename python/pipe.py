@@ -1,9 +1,6 @@
 import duckdb
 import pandas as pd
 import matplotlib.pyplot as plt
-import time
-
-
 
 class ELTPipeline:
 
@@ -24,8 +21,6 @@ class ELTPipeline:
         df = self.conn.execute(f'''
             SELECT * FROM {table_name};
         ''').fetch_df()
-
-        end_time = time.time()
 
         print(f"Data extracted successfully from {csv_path} into table {table_name}")
         return df
