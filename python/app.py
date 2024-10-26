@@ -7,7 +7,7 @@ import pandas as pd
 from pipe import ELTPipeline
 
 
-ui.page_opts(title = "Countries Olympic Medals vs their Population and GDP", fillable=True)
+ui.page_opts(title = "Countries' Olympic Medals vs their Population and GDP", fillable=True)
 
 with ui.sidebar():
     "Inputs (add)"
@@ -22,7 +22,10 @@ def getdata():
 
 with ui.card():
 
+    ui.markdown("Olympic Medal Count By Country")
+
     ui.input_numeric("n", "Number of items in bar plot", 5, min = 1, max = 88)
+
 
     with ui.layout_columns():
         @render_plotly
@@ -32,6 +35,8 @@ with ui.card():
             return px.bar(top_n, x = 'country_code', y = 'total')
 
 with ui.card():
+
+    ui.markdown("Raw Data")
 
     @render.data_frame
     def showtable():
