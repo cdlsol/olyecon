@@ -10,8 +10,19 @@ from pipe import ELTPipeline
 ui.page_opts(title = "Countries' Olympic Medals vs their Population and GDP", fillable=True)
 
 with ui.sidebar():
-    "Inputs (add)"
+    "Input Variables"
+    ui.input_select(  
+    "select",  
+    "Select an option below:",  
+    {"total": "Total Medals", "gold": "Gold Medals", "silver": "Silver Medals", "bronze": "Bronze Medals"},  
+) 
 "Main Content"
+
+# ui.input_select(  
+#     "select",  
+#     "Select an option below:",  
+#     {"1A": "Choice 1A", "1B": "Choice 1B", "1C": "Choice 1C"},  
+# ) 
 
 
 @reactive.calc
