@@ -9,14 +9,6 @@ from pipe import ELTPipeline
 
 ui.page_opts(title = "Countries' Olympic Medals vs their Population and GDP", fillable=True)
 
-with ui.sidebar():
-    "Input Variables"
-    ui.input_select(  
-    "select",  
-    "Select an option below:",  
-    {"total": "Total Medals", "gold": "Gold Medals", "silver": "Silver Medals", "bronze": "Bronze Medals"},  
-) 
-"Main Content"
 
 @reactive.calc
 def getdata():
@@ -26,10 +18,9 @@ def getdata():
 
 with ui.card():
 
-    ui.markdown("Olympic Medal Count By Country")
+    ui.markdown("Olympic Total Medal Count By Country.")
 
     ui.input_numeric("n", "Number of items in bar plot", 5, min = 1, max = 88)
-
 
     with ui.layout_columns():
         @render_plotly
@@ -37,6 +28,22 @@ with ui.card():
             df = getdata()
             top_n = df.groupby('country_code')['total'].sum().nlargest(input.n()).reset_index()
             return px.bar(top_n, x = 'country_code', y = 'total')
+
+with ui.card():
+    
+    ui.markdown("Gold, Silver and Bronze medals.")
+
+    ui.input_numeric("gn", "Number of items in bar plot", 5, min = 1, max = 88)
+
+    ui.input_selectize("medalselect", "Select medal category.",
+                       {"gold":"Gold Medal", "silver":"Silver Medal", "bronze":"Bronze Medal"})
+
+    with ui.layout_columns():
+        @render_plotly
+        def gold_medals_plot():
+            df = getdata()
+            gold_n = df.groupby('country_code')[input.medalselect()].sum().nlargest(input.gn()).reset_index()
+            return px.bar(gold_n, x = 'country_code' , y = input.medalselect())
 
 with ui.card():
 
