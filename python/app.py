@@ -18,13 +18,6 @@ with ui.sidebar():
 ) 
 "Main Content"
 
-# ui.input_select(  
-#     "select",  
-#     "Select an option below:",  
-#     {"1A": "Choice 1A", "1B": "Choice 1B", "1C": "Choice 1C"},  
-# ) 
-
-
 @reactive.calc
 def getdata():
     pipeline = ELTPipeline()
