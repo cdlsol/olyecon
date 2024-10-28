@@ -47,6 +47,11 @@ with ui.nav_panel("Medals"):
             gold_n = df.groupby('country_code')[input.medalselect()].sum().nlargest(input.gn()).reset_index()
             return px.bar(gold_n, x = 'country_code' , y = input.medalselect())
 
+
+with ui.nav_panel("GDP"):
+    ...
+
+with ui.nav_panel("Raw Data"):
     with ui.card():
 
         ui.markdown("Raw Data")
@@ -54,10 +59,6 @@ with ui.nav_panel("Medals"):
         @render.data_frame
         def showtable():
             return getdata()
-
-
-with ui.nav_panel("GDP"):
-    ...
 
 
 @reactive.calc
