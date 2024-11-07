@@ -1,5 +1,5 @@
 import plotly.express as px
-from shiny import reactive
+from shiny import reactive, App, ui
 from shiny.express import render, input, ui
 from shiny.ui import page_navbar
 from shinywidgets import render_plotly
