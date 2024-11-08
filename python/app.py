@@ -1,6 +1,7 @@
 import plotly.express as px
-from shiny import reactive, App, ui
+from shiny import reactive, App
 from shiny.express import render, input, ui
+from shiny.express import app as express_app
 from shiny.ui import page_navbar
 from shinywidgets import render_plotly
 from functools import partial
@@ -49,7 +50,7 @@ with ui.nav_panel("Medals"):
 
 
 with ui.nav_panel("GDP"):
-    ...
+    pass
 
 with ui.nav_panel("Raw Data"):
     with ui.card():
@@ -66,3 +67,4 @@ def getdata():
     pipeline = ELTPipeline()
     df = pipeline.extract()
     return df
+
