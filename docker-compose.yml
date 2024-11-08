@@ -5,6 +5,8 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=olympics24db
+    networks:
+      - pg-network
     volumes:
       - pgdata:/var/lib/postgresql/data 
     ports:
@@ -29,3 +31,7 @@ services:
 volumes:
   pgdata:   
   pgadmin_data: 
+
+networks:
+  pg-network:
+    driver: bridge
