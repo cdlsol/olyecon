@@ -25,7 +25,7 @@ services:
     depends_on:
       - pgdatabase
     ports:
-      - "40331:40331" #Shiny port
+      - "35603:35603"
 volumes:
   pgdata:   
   pgadmin_data: 
