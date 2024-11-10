@@ -15,6 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the project files
 COPY python /app/python
 COPY python /app/pipe.py
+COPY extract_data.py /app/extract_data.py
 COPY olympicsdata.ddb /app/olympicsdata.ddb
 COPY olympics-economics.csv /app/olympics-economics.csv
 
