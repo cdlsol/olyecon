@@ -30,6 +30,10 @@ services:
       - pgdatabase
     ports:
       - "35603:35603"
+    networks:
+      - pg-network
+    restart: unless-stopped
+  
 volumes:
   pgdata:   
   pgadmin_data: 
