@@ -24,22 +24,30 @@ def query_postgre_duck():
 
         #Attach to Postgresql db
         duck_conn.execute(f"""
-
-        ATTACH '{pg_connection_string} AS olympics24db (TYPE postgres);'
-
+        ATTACH '{pg_connection_string}' AS olympics24db (TYPE postgres);
         """)
 
         #list all tables (test query)
         tables = duck_conn.execute("""
-
         SELECT * FROM olympics24db.information_schema.tables
         WHERE table_schema = 'public';        
+        """).fetchdf()
 
-        """).fetch_df()
-        print("Available tables:", tables)
+        print("\nAvailable tables:")
+        print(tables)
+
+        # target data (test query)
+        data = duck_conn.execute("""
+        SELECT * FROM olympics24db.public.olyecon LIMIT 5;
+        """).fetchdf()
+        print("\nSample data from olyecon table:")
+        print(data)
     
     except Exception as e:
         print(f"An error occurred:{e}")
     finally:
         duck_conn.close()
+
+if __name__ == "__main__":
+    query_postgre_duck()
 
