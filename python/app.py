@@ -7,7 +7,8 @@ from shinywidgets import render_plotly
 from functools import partial
 import duckdb
 import pandas as pd
-from pipe import ELTPipeline
+# from pipe import ELTPipeline
+from query import Querydb
 
 
 ui.page_opts(title = "Countries' Olympic Medals vs their Population and GDP",
@@ -64,7 +65,7 @@ with ui.nav_panel("Raw Data"):
 
 @reactive.calc
 def getdata():
-    pipeline = ELTPipeline()
-    df = pipeline.extract()
+    querydata = Querydb()
+    df = querydata.query_postgre_duck()
     return df
 
