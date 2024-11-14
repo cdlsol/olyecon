@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 class Querydb:
 
     @staticmethod
-
     def query_postgre_duck():
         #Connection parameters
         pg_user = 'root'
@@ -45,6 +44,5 @@ class Querydb:
 
 if __name__ == "__main__":
 
-    # querydata = Querydb()
-    # df = querydata.query_postgre_duck()
+    #Fetch all data
     df = Querydb.query_postgre_duck() 

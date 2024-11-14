@@ -24,7 +24,7 @@ with ui.nav_panel("Medals"):
 
         ui.markdown("Olympic Total Medal Count By Country.")
 
-        ui.input_numeric("n", "Number of items in bar plot", 5, min = 1, max = 88)
+        ui.input_numeric("n", "Number of items in bar plot", 5, min = 1, max = 90)
 
     with ui.layout_columns():
         @render_plotly
@@ -37,7 +37,7 @@ with ui.nav_panel("Medals"):
     
         ui.markdown("Gold, Silver and Bronze medals.")
 
-        ui.input_numeric("gn", "Number of items in bar plot", 5, min = 1, max = 88)
+        ui.input_numeric("gn", "Number of items in bar plot", 5, min = 1, max = 90)
 
         ui.input_selectize("medalselect", "Select medal category.",
                         {"gold":"Gold Medal", "silver":"Silver Medal", "bronze":"Bronze Medal"})
@@ -49,9 +49,33 @@ with ui.nav_panel("Medals"):
             gold_n = df.groupby('country_code')[input.medalselect()].sum().nlargest(input.gn()).reset_index()
             return px.bar(gold_n, x = 'country_code' , y = input.medalselect())
 
-
 with ui.nav_panel("GDP"):
-    pass
+    with ui.card():
+
+        ui.markdown("GDP by Country.")
+
+        ui.input_numeric("gdpn", "Number of items in bar plot", 5, min = 1, max = 90)
+
+    with ui.layout_columns():
+        @render_plotly
+        def gdp_plot():
+            df = getdata()
+            gdp_n = df.groupby('country_code')['gdp'].sum().nlargest(input.gdpn()).reset_index()
+            return px.bar(gdp_n, x = 'country_code', y = 'gdp')
+
+with ui.nav_panel("Population"):
+    with ui.card():
+
+        ui.markdown("Population by Country.")
+
+        ui.input_numeric("ppn", "Number of items in bar plot", 5, min = 1, max = 90)
+    
+    with ui.layout_columns():
+        @render_plotly
+        def population_plot():
+            df = getdata()
+            population_n = df.groupby('country_code')['population'].sum().nlargest(input.ppn()).reset_index()
+            return px.bar(population_n, x = 'country_code', y = 'population')
 
 with ui.nav_panel("Raw Data"):
     with ui.card():
@@ -62,10 +86,11 @@ with ui.nav_panel("Raw Data"):
         def showtable():
             return getdata()
 
-
 @reactive.calc
 def getdata():
     querydata = Querydb()
-    df = querydata.query_postgre_duck()
-    return df
+ 
+    #Fetch all data
+    df = querydata.query_postgre_duck() 
 
+    return df
