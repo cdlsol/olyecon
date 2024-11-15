@@ -76,6 +76,47 @@ with ui.nav_panel("Population"):
             df = getdata()
             population_n = df.groupby('country_code')['population'].sum().nlargest(input.ppn()).reset_index()
             return px.bar(population_n, x = 'country_code', y = 'population')
+        
+with ui.nav_panel("Medal Efficiency Analysis"):
+    with ui.card():
+
+        ui.markdown("Medals per Capita.")
+
+        ui.markdown("""Represents the efficiency of each country in terms of medals won relative to its population size. 
+                    This can highlight countries that have a high medal count even with smaller populations, making it a useful metric for understanding Olympic success beyond absolute medal counts.
+                    """)
+        ui.input_numeric("medalspc", "Number of items in bar plot", 5, min = 1, max = 90)
+
+    with ui.layout_columns():
+        @render_plotly
+        def medals_capita():
+            df = getdata()
+            # country_code_dict = df.set_index('country_code')['country'].to_dict()
+            df['medals_per_capita'] = df['total'] / df['population']
+            top_medals_per_capita = df[['country', 'medals_per_capita']].nlargest(input.medalspc(), 'medals_per_capita')
+            return px.bar(top_medals_per_capita, x='country', y='medals_per_capita',
+                      labels={'country': 'Country', 'medals_per_capita': 'Medals per Capita'},
+                      title="Top Countries by Medals per Capita")
+        
+    with ui.card():
+
+        ui.markdown("Medals per GDP")
+
+        ui.markdown("""This measures and represents the efficiency of medal counts relative to GDP.
+                    Revealing countries that may excel despite limited resources.
+                    """)
+        ui.input_numeric("medalgdp", "Number of items in bar plot", 5, min = 1, max = 90)
+
+    with ui.layout_columns():
+        @render_plotly
+        def medals_gdp():
+            df = getdata()
+            df['medals_per_gdp'] = df['total'] / df['gdp']
+            top_medals_per_gdp = df[['country', 'medals_per_gdp']].nlargest(input.medalgdp(), 'medals_per_gdp')
+            return px.bar(top_medals_per_gdp, x = 'country', y = 'medals_per_gdp',
+                            labels = {'country': 'Country', 'medals_per_gdp':'Medals per GDP'},
+                            title = 'Top Countries by Medals per GDP'
+                          )
 
 with ui.nav_panel("Raw Data"):
     with ui.card():
